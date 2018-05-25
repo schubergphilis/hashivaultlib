@@ -32,7 +32,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='''Costas Tyfoxylos''',
     author_email='''ctyfoxylos@schubergphilis.com''',
-    url='''git@github.com:schubergphilis/hashivaultlib.git''',
+    url='''https://github.com/schubergphilis/hashivaultlib.git''',
     packages=find_packages(where='.', exclude=('tests', 'hooks')),
     package_dir={'''hashivaultlib''':
                  '''hashivaultlib'''},
