@@ -35,6 +35,7 @@ import json
 import logging
 import os
 from datetime import timedelta
+import concurrent.futures
 
 from dateutil.parser import parse
 from hvac import Client
@@ -57,7 +58,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Vault(Client):
-    """Extends the hvac client for vault with some extra hadny usability"""
+    """Extends the hvac client for vault with some extra handy usability"""
 
     def __init__(self, *args, **kwargs):
         super(Vault, self).__init__(*args, **kwargs)
@@ -155,10 +156,20 @@ class Vault(Client):
         """
         headers = {'X-Vault-Token': self.token}
         url = '{host}/v1/auth/token/lookup-accessor?vaultaddr={host}'.format(host=self._url)
-        return (TokenFactory(self, self.session.post(url,
-                                                     headers=headers,
-                                                     data=json.dumps({"accessor": accessor})).json())
-                for accessor in self._token_accessors)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
+            futures = [executor.submit(self.session.post,
+                                       url,
+                                       headers=headers,
+                                       data=json.dumps({"accessor": accessor}))
+                       for accessor in self._token_accessors]
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    response = future.result()
+                    response_data = response.json()
+                    response.close()
+                    yield TokenFactory(self, response_data)
+                except Exception:  # pylint: disable=broad-except
+                    self._logger.exception('Future failed...')
 
 
 class TokenFactory(object):  # pylint: disable=too-few-public-methods
