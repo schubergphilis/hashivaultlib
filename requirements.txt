@@ -7,5 +7,5 @@
 #
 # Please use Pipfile to update the requirements.
 #
-dateutils==0.6.6
-hvac==0.5.0
+dateutils>=0.6.6
+hvac>=0.5.0
