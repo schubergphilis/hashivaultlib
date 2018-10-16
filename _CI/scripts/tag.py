@@ -26,9 +26,9 @@
 import argparse
 import logging
 from bootstrap import bootstrap
-from gitwrapperlib import Git
 from library import bump
 from configuration import BRANCHES_SUPPORTED_FOR_TAG
+from gitwrapperlib import Git
 
 # This is the main prefix used for logging
 LOGGER_BASENAME = '''_CI.tag'''
