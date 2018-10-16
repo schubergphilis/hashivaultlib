@@ -13,3 +13,10 @@ History
 ----------------
 
 * Added concurrency in retrieving the tokens from the server.
+
+
+1.0 (2018-10-16)
+----------------
+
+* Ported the template part to python 3.7
+* Officially dropped support for python 2.7

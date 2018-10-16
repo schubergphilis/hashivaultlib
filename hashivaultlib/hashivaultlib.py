@@ -90,13 +90,7 @@ class Vault(Client):
             path: The path to retrieve all the secrets for
 
         """
-        class Namespace(object):  # pylint: disable=too-few-public-methods
-            """Namespacing utility class"""
-
-            def __init__(self):
-                self.secrets = []
-
-        namespace = Namespace()
+        secrets = []
 
         def recurse(vault, path):
             """Recurses through a path"""
@@ -109,10 +103,10 @@ class Vault(Client):
                 LOGGER.info('Extracting secret %s', path)
                 secret = vault.read(path)
                 secret['original_path'] = path
-                namespace.secrets.append(secret)
+                secrets.append(secret)
 
         recurse(self, path)
-        return namespace.secrets
+        return secrets
 
     def restore_secrets(self, secrets):
         """Restores secrets to vault in their original path.
@@ -172,7 +166,7 @@ class Vault(Client):
                     self._logger.exception('Future failed...')
 
 
-class TokenFactory(object):  # pylint: disable=too-few-public-methods
+class TokenFactory:  # pylint: disable=too-few-public-methods
     """Factory to create the appropriate Token type"""
 
     def __new__(cls, vault_instance, data):
@@ -186,7 +180,7 @@ class TokenFactory(object):  # pylint: disable=too-few-public-methods
         return token
 
 
-class Token(object):  # pylint: disable=too-many-public-methods
+class Token:  # pylint: disable=too-many-public-methods
     """Models a vault token and provides delete capabilities"""
 
     def __init__(self, vault_instance, data):
