@@ -20,3 +20,9 @@ History
 
 * Ported the template part to python 3.7
 * Officially dropped support for python 2.7
+
+
+1.0.2 (25-10-2018)
+------------------
+
+* Updated template and dependencies
