@@ -26,3 +26,9 @@ History
 ------------------
 
 * Updated template and dependencies
+
+
+1.1.0 (29-11-2018)
+------------------
+
+* Updated to 0.7.0 of hvac
