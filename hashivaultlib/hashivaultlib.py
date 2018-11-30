@@ -134,7 +134,7 @@ class Vault(Client):
     @property
     def _token_accessors(self):
         headers = {'X-Vault-Token': self.token}
-        url = '{host}/v1/auth/token/accessors?vaultaddr={host}&list=true'.format(host=self._url)
+        url = '{host}/v1/auth/token/accessors?vaultaddr={host}&list=true'.format(host=self.url)
         response = self.session.get(url, headers=headers)
         if not response.ok:
             self._logger.error('Error retrieving accessors.')
@@ -149,7 +149,7 @@ class Vault(Client):
 
         """
         headers = {'X-Vault-Token': self.token}
-        url = '{host}/v1/auth/token/lookup-accessor?vaultaddr={host}'.format(host=self._url)
+        url = '{host}/v1/auth/token/lookup-accessor?vaultaddr={host}'.format(host=self.url)
         with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
             futures = [executor.submit(self.session.post,
                                        url,
