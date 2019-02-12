@@ -38,3 +38,9 @@ History
 ------------------
 
 * Updated hvac to 0.7.2
+
+
+1.1.2 (12-02-2019)
+------------------
+
+* Added pyhcl as a top level dependency
