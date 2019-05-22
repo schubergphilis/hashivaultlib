@@ -31,15 +31,14 @@ Main code for hashivaultlib
 
 """
 
+import concurrent.futures
 import json
 import logging
-import os
 from datetime import timedelta
-import concurrent.futures
-
+from pathlib import PurePosixPath
 from dateutil.parser import parse
 from hvac import Client
-from pathlib import PurePosixPath
+
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -77,7 +76,7 @@ class Vault(Client):
         try:
             subdirs = self.list(path).get('data', {}).get('keys')
             for subdir in subdirs:
-                self.delete_path(os.path.join(path, subdir))
+                self.delete_path(PurePosixPath(path, subdir))
             self._logger.info('Deleting directory %s', path)
             self.delete(path)
         except AttributeError:
