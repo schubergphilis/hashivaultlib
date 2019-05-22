@@ -39,6 +39,7 @@ import concurrent.futures
 
 from dateutil.parser import parse
 from hvac import Client
+from pathlib import PurePosixPath
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
