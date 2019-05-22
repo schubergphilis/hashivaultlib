@@ -45,7 +45,7 @@ setup(
     author='''Costas Tyfoxylos''',
     author_email='''ctyfoxylos@schubergphilis.com''',
     url='''https://github.com/schubergphilis/hashivaultlib.git''',
-    packages=find_packages(where='.', exclude=('tests', 'hooks')),
+    packages=find_packages(where='.', exclude=('tests', 'hooks', '_CI*')),
     package_dir={'''hashivaultlib''':
                  '''hashivaultlib'''},
     include_package_data=True,
