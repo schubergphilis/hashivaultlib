@@ -44,3 +44,9 @@ History
 ------------------
 
 * Added pyhcl as a top level dependency
+
+
+1.1.3 (22-05-2019)
+------------------
+
+* Fixed retrieval and deletion of paths under windows clients
