@@ -97,7 +97,7 @@ class Vault(Client):
             try:
                 subdirs = vault.list(path).get('data', {}).get('keys')
                 for subdir in subdirs:
-                    recurse(vault, os.path.join(path, subdir))
+                    recurse(vault, PurePosixPath(path, subdir))
                 LOGGER.info('Reached directory %s', path)
             except AttributeError:
                 LOGGER.info('Extracting secret %s', path)
