@@ -50,3 +50,9 @@ History
 ------------------
 
 * Fixed retrieval and deletion of paths under windows clients
+
+
+1.1.4 (22-05-2019)
+------------------
+
+* fixed packaging by removing unneeded files from root
