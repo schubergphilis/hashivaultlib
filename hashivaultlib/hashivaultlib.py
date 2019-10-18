@@ -24,7 +24,7 @@
 #
 
 """
-Main code for hashivaultlib
+Main code for hashivaultlib.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -67,7 +67,7 @@ class Vault(Client):
         self._logger = logging.getLogger(logger_name)
 
     def delete_path(self, path):
-        """Deletes recursively a path from vault
+        """Deletes recursively a path from vault.
 
         Args:
             path: The path to remove
@@ -84,7 +84,7 @@ class Vault(Client):
             self.delete(path)
 
     def retrieve_secrets_from_path(self, path):
-        """Retrieves recursively all the secrets from a path in vault
+        """Retrieves recursively all the secrets from a path in vault.
 
         Args:
             path: The path to retrieve all the secrets for
@@ -142,7 +142,7 @@ class Vault(Client):
 
     @property
     def tokens(self):
-        """Models the tokens of a vault installation
+        """Models the tokens of a vault installation.
 
         Returns:
             list:All tokens of a vault in a Token object format
@@ -189,7 +189,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def raw_data(self):
-        """The raw data of the token
+        """The raw data of the token.
 
         Returns:
             dict: The raw data of the token
@@ -199,7 +199,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def auth(self):
-        """Auth data for the token
+        """Auth data for the token.
 
         Returns:
             The auth data
@@ -213,7 +213,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def lease_duration(self):
-        """The duration of the lease of the token
+        """The duration of the lease of the token.
 
         Returns:
             string: The duration of the lease of the token
@@ -223,7 +223,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def lease_id(self):
-        """The lease ID
+        """The lease ID.
 
         Returns:
             string: The lease ID
@@ -233,7 +233,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def renewable(self):
-        """A flag on whether the token is renewable
+        """A flag on whether the token is renewable.
 
         Returns:
             bool: True if token is renewable, False otherwise
@@ -243,7 +243,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def request_id(self):
-        """The id of the request for the token
+        """The id of the request for the token.
 
         Returns:
             string: The id of the request for the token
@@ -253,7 +253,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def warnings(self):
-        """The warnings of the token
+        """The warnings of the token.
 
         Returns:
             The warnings of the token
@@ -263,7 +263,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def wrap_info(self):
-        """The wrap info of the token
+        """The wrap info of the token.
 
         Returns:
             The wrap info of the token
@@ -273,7 +273,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def accessor(self):
-        """The accessor token of the token
+        """The accessor token of the token.
 
         Returns:
             string: The accessor token of the token
@@ -283,7 +283,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def creation_time(self):
-        """The creation time of the token in seconds
+        """The creation time of the token in seconds.
 
         Returns:
             string: The creation time of the token in seconds
@@ -293,7 +293,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def creation_time_day_format(self):
-        """The creation time of the token in a day duration format
+        """The creation time of the token in a day duration format.
 
         Returns:
             string: The creation time of the token in a day duration format
@@ -303,7 +303,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def creation_ttl(self):
-        """The creation ttl of the token in seconds
+        """The creation ttl of the token in seconds.
 
         Returns:
             string: The creation ttl of the token in seconds
@@ -313,7 +313,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def creation_ttl_day_format(self):
-        """The creation ttl of the token in a day duration format
+        """The creation ttl of the token in a day duration format.
 
         Returns:
             string: The creation ttl of the token in a day duration format
@@ -323,7 +323,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def display_name(self):
-        """The display name of the token
+        """The display name of the token.
 
         Returns:
             string: The display name of the token
@@ -333,7 +333,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def expire_time(self):
-        """The expire time of the token
+        """The expire time of the token.
 
         Returns:
             datetime: The expire time of the token if any, None otherwise
@@ -347,7 +347,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def issue_time(self):
-        """The issue time of the token
+        """The issue time of the token.
 
         Returns:
             datetime: The issue time of the token
@@ -361,7 +361,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def explicit_max_ttl(self):
-        """The explicit max ttl
+        """The explicit max ttl.
 
         Returns:
             string: The explicit max ttl
@@ -371,7 +371,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def explicit_max_ttl_day_format(self):
-        """The explicit max ttl in a day duration format
+        """The explicit max ttl in a day duration format.
 
         Returns:
             string: The explicit max ttl in a day duration format
@@ -381,7 +381,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def id(self):  # pylint: disable=invalid-name
-        """The id of the token
+        """The id of the token.
 
         Returns:
             string: The id of the token
@@ -391,7 +391,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def meta(self):
-        """The meta of the token
+        """The meta of the token.
 
         Returns:
             string: The meta of the token
@@ -401,7 +401,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def num_uses(self):
-        """The number of uses of the token
+        """The number of uses of the token.
 
         Returns:
             string: The number of uses of the token
@@ -411,7 +411,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def orphan(self):
-        """Flag on whether the token is orphan
+        """Flag on whether the token is orphan.
 
         Returns:
             bool: True if the token is orphan, False otherwise
@@ -421,7 +421,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def path(self):
-        """The path to create the token
+        """The path to create the token.
 
         Returns:
             string: The path to create the token
@@ -431,7 +431,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def policies(self):
-        """The policies this token has enforced upon
+        """The policies this token has enforced upon.
 
         Returns:
             list: The policies of the token
@@ -441,7 +441,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def ttl(self):
-        """The ttl is seconds
+        """The ttl is seconds.
 
         Returns:
             string: The ttl is seconds
@@ -451,7 +451,7 @@ class Token:  # pylint: disable=too-many-public-methods
 
     @property
     def ttl_day_format(self):
-        """The ttl in a day duration format
+        """The ttl in a day duration format.
 
         Returns:
             string: The ttl in a day duration format
