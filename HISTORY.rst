@@ -56,3 +56,9 @@ History
 ------------------
 
 * fixed packaging by removing unneeded files from root
+
+
+1.1.5 (18-10-2019)
+------------------
+
+* Updated template and bumped dependencies
