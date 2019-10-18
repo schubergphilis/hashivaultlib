@@ -24,7 +24,7 @@
 #
 
 """
-Custom exception code for hashivaultlib
+Custom exception code for hashivaultlib.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html

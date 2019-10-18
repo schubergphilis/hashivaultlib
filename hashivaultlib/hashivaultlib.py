@@ -58,7 +58,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Vault(Client):
-    """Extends the hvac client for vault with some extra handy usability"""
+    """Extends the hvac client for vault with some extra handy usability."""
 
     def __init__(self, *args, **kwargs):
         super(Vault, self).__init__(*args, **kwargs)
@@ -93,7 +93,7 @@ class Vault(Client):
         secrets = []
 
         def recurse(vault, path):
-            """Recurses through a path"""
+            """Recurses through a path."""
             try:
                 subdirs = vault.list(path).get('data', {}).get('keys')
                 for subdir in subdirs:
@@ -167,7 +167,7 @@ class Vault(Client):
 
 
 class TokenFactory:  # pylint: disable=too-few-public-methods
-    """Factory to create the appropriate Token type"""
+    """Factory to create the appropriate Token type."""
 
     def __new__(cls, vault_instance, data):
         try:
@@ -181,7 +181,7 @@ class TokenFactory:  # pylint: disable=too-few-public-methods
 
 
 class Token:  # pylint: disable=too-many-public-methods
-    """Models a vault token and provides delete capabilities"""
+    """Models a vault token and provides delete capabilities."""
 
     def __init__(self, vault_instance, data):
         self._vault = vault_instance
@@ -460,14 +460,14 @@ class Token:  # pylint: disable=too-many-public-methods
         return self._seconds_to_day_format(self.ttl)
 
     def delete(self):
-        """Deletes the token by removing the accessor from the vault instance"""
+        """Deletes the token by removing the accessor from the vault instance."""
         self._vault.revoke_token(self.accessor, accessor=True)
 
 
 class BrokenToken(Token):
-    """Models a broken token with only an accessor ID and errors messages"""
+    """Models a broken token with only an accessor ID and errors messages."""
 
     @property
     def errors(self):
-        """The errors of the token"""
+        """The errors of the token."""
         return self._data.get('errors')

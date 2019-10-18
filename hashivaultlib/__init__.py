@@ -24,7 +24,7 @@
 #
 
 """
-hashivaultlib package
+hashivaultlib package.
 
 Import all parts from hashivaultlib here
 
