@@ -68,3 +68,9 @@ History
 ------------------
 
 * Updated template and bumped dependencies
+
+
+1.1.7 (25-05-2020)
+------------------
+
+* Updated dependencies, providing terraform 12 compatibility.
