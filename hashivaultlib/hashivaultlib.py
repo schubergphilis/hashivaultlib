@@ -66,7 +66,9 @@ class Vault(Client):
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
-
+        self.secrets.kv.v2.delete_path = self._delete_path_v2
+        self.secrets.kv.v2.retrieve_secrets_from_path = self._retrieve_secrets_from_path_v2
+        
     def delete_path(self, path):
         """Deletes recursively a path from vault.
 
@@ -84,7 +86,7 @@ class Vault(Client):
             self._logger.info('Deleting secret %s', path)
             self.delete(path)
 
-    def delete_path_v2(self, path, mount_point):
+    def _delete_path_v2(self, path, mount_point):
         """Deletes recursively a path from vault using v2 engine.
 
         Args:
@@ -92,7 +94,7 @@ class Vault(Client):
             mount_point: Mountpoint for path
 
         """
-        secrets = self.retrieve_secrets_from_path_v2(path=path, mount_point=mount_point)
+        secrets = self._retrieve_secrets_from_path_v2(path=path, mount_point=mount_point)
         for secret in secrets:
             LOGGER.info('Deleting %s', secret)
             self.secrets.kv.v2.delete_metadata_and_all_versions(path=secret, mount_point=mount_point)
@@ -122,7 +124,7 @@ class Vault(Client):
         recurse(self, path)
         return secrets
 
-    def retrieve_secrets_from_path_v2(self, path, mount_point):
+    def _retrieve_secrets_from_path_v2(self, path, mount_point):
         """Retrieves recursively all the secrets from a path in vault using v2 engine.
 
         Args:
