@@ -66,9 +66,11 @@ class Vault(Client):
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
+        self.secrets.kv.v1.delete_path = self.delete_path
+        self.secrets.kv.v1.retrieve_secrets_from_path = self.retrieve_secrets_from_path
         self.secrets.kv.v2.delete_path = self._delete_path_v2
         self.secrets.kv.v2.retrieve_secrets_from_path = self._retrieve_secrets_from_path_v2
-        
+
     def delete_path(self, path):
         """Deletes recursively a path from vault.
 
