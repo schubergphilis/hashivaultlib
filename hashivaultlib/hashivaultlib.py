@@ -38,6 +38,7 @@ from datetime import timedelta
 from pathlib import PurePosixPath
 from dateutil.parser import parse
 from hvac import Client
+from hvac.exceptions import InvalidPath
 
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -83,6 +84,19 @@ class Vault(Client):
             self._logger.info('Deleting secret %s', path)
             self.delete(path)
 
+    def delete_path_v2(self, path, mount_point):
+        """Deletes recursively a path from vault using v2 engine.
+
+        Args:
+            path: The path to remove
+            mount_point: Mountpoint for path
+
+        """
+        secrets = self.retrieve_secrets_from_path_v2(path=path, mount_point=mount_point)
+        for secret in secrets:
+            LOGGER.info('Deleting %s', secret)
+            self.secrets.kv.v2.delete_metadata_and_all_versions(path=secret, mount_point=mount_point)
+
     def retrieve_secrets_from_path(self, path):
         """Retrieves recursively all the secrets from a path in vault.
 
@@ -104,6 +118,31 @@ class Vault(Client):
                 secret = vault.read(path)
                 secret['original_path'] = path
                 secrets.append(secret)
+
+        recurse(self, path)
+        return secrets
+
+    def retrieve_secrets_from_path_v2(self, path, mount_point):
+        """Retrieves recursively all the secrets from a path in vault using v2 engine.
+
+        Args:
+            path: The path to retrieve all the secrets for
+            mount_point: Mountpoint for path
+
+        """
+        secrets = []
+
+        def recurse(vault, path):
+            """Recurses through a path."""
+            try:
+                subdirs = vault.secrets.kv.v2.list_secrets(path=path,
+                                                           mount_point=mount_point).get('data', {}).get('keys')
+                for subdir in subdirs:
+                    recurse(vault, PurePosixPath(path, subdir))
+                LOGGER.info('Reached directory %s', path)
+            except InvalidPath:
+                LOGGER.info('Extracting secret %s', path)
+                secrets.append(path)
 
         recurse(self, path)
         return secrets
