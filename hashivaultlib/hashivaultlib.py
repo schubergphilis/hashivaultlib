@@ -100,7 +100,7 @@ class Vault(Client):
         """
         secrets = self._retrieve_secrets_from_path_v2(path=path, mount_point=mount_point)
         for secret in secrets:
-            LOGGER.info('Deleting %s', secret)
+            self._logger.info('Deleting %s', secret)
             self.secrets.kv.v2.delete_metadata_and_all_versions(path=secret.get('original_path', ''),
                                                                 mount_point=mount_point)
 
@@ -119,9 +119,9 @@ class Vault(Client):
                 subdirs = vault.list(path).get('data', {}).get('keys')
                 for subdir in subdirs:
                     recurse(vault, PurePosixPath(path, subdir))
-                LOGGER.info('Reached directory %s', path)
+                vault._logger.info('Reached directory %s', path)  # pylint: disable=protected-access
             except AttributeError:
-                LOGGER.info('Extracting secret %s', path)
+                vault._logger.info('Extracting secret %s', path)  # pylint: disable=protected-access
                 secret = vault.read(path)
                 secret['original_path'] = path
                 secrets.append(secret)
@@ -146,9 +146,9 @@ class Vault(Client):
                                                            mount_point=mount_point).get('data', {}).get('keys')
                 for subdir in subdirs:
                     recurse(vault, PurePosixPath(path, subdir))
-                LOGGER.info('Reached directory %s', path)
+                vault._logger.info('Reached directory %s', path)  # pylint: disable=protected-access
             except InvalidPath:
-                LOGGER.info('Extracting secret %s', path)
+                vault._logger.info('Extracting secret %s', path)  # pylint: disable=protected-access
                 secret = vault.secrets.kv.v2.read_secret_version(path=path,
                                                                  mount_point=mount_point)
                 secret['original_path'] = path
@@ -176,7 +176,7 @@ class Vault(Client):
                 self._logger.error('No "original_path" found, cannot restore.')
                 continue
             data = secret.get('data')
-            self._logger.info('Adding secrets to path {}'.format(path))
+            self._logger.info('Adding secrets to path %s', path)
             self.write(path, **data)
         return True
 
@@ -200,7 +200,7 @@ class Vault(Client):
                 self._logger.error('No "original_path" found, cannot restore.')
                 continue
             data = secret.get('data', {}).get('data')
-            self._logger.info('Adding secrets to path {}'.format(path))
+            self._logger.info('Adding secrets to path %s', path)
             self.secrets.kv.v2.create_or_update_secret(mount_point=mount_point,
                                                        path=path,
                                                        secret=data)
@@ -251,7 +251,7 @@ class TokenFactory:  # pylint: disable=too-few-public-methods
             else:
                 token = Token(vault_instance, data)
         except (AttributeError, TypeError):
-            LOGGER.error('Response for token seems broken, got :{}'.format(data))
+            vault_instance._logger.error('Response for token seems broken, got :%s', data)  # pylint: disable=protected-access
         return token
 
 
