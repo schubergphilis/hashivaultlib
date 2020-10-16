@@ -80,3 +80,9 @@ History
 ------------------
 
 * Bumped dependencies
+
+
+1.2.0 (16-10-2020)
+------------------
+
+* Implemented retrieve, restore and delete for v2 kv paths.
