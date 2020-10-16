@@ -86,3 +86,9 @@ History
 ------------------
 
 * Implemented retrieve, restore and delete for v2 kv paths.
+
+
+1.2.1 (16-10-2020)
+------------------
+
+* Refactored loggers to not use the root one.
