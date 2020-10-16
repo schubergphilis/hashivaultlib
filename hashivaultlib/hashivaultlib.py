@@ -38,6 +38,7 @@ from datetime import timedelta
 from pathlib import PurePosixPath
 from dateutil.parser import parse
 from hvac import Client
+from hvac.exceptions import InvalidPath
 
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -65,6 +66,12 @@ class Vault(Client):
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
+        self.secrets.kv.v1.delete_path = self.delete_path
+        self.secrets.kv.v1.retrieve_secrets_from_path = self.retrieve_secrets_from_path
+        self.secrets.kv.v1.restore_secrets = self.restore_secrets
+        self.secrets.kv.v2.delete_path = self._delete_path_v2
+        self.secrets.kv.v2.retrieve_secrets_from_path = self._retrieve_secrets_from_path_v2
+        self.secrets.kv.v2.restore_secrets = self._restore_secrets_v2
 
     def delete_path(self, path):
         """Deletes recursively a path from vault.
@@ -82,6 +89,20 @@ class Vault(Client):
         except AttributeError:
             self._logger.info('Deleting secret %s', path)
             self.delete(path)
+
+    def _delete_path_v2(self, path, mount_point):
+        """Deletes recursively a path from vault using v2 engine.
+
+        Args:
+            path: The path to remove
+            mount_point: Mountpoint for path
+
+        """
+        secrets = self._retrieve_secrets_from_path_v2(path=path, mount_point=mount_point)
+        for secret in secrets:
+            LOGGER.info('Deleting %s', secret)
+            self.secrets.kv.v2.delete_metadata_and_all_versions(path=secret.get('original_path', ''),
+                                                                mount_point=mount_point)
 
     def retrieve_secrets_from_path(self, path):
         """Retrieves recursively all the secrets from a path in vault.
@@ -102,6 +123,34 @@ class Vault(Client):
             except AttributeError:
                 LOGGER.info('Extracting secret %s', path)
                 secret = vault.read(path)
+                secret['original_path'] = path
+                secrets.append(secret)
+
+        recurse(self, path)
+        return secrets
+
+    def _retrieve_secrets_from_path_v2(self, path, mount_point):
+        """Retrieves recursively all the secrets from a path in vault using v2 engine.
+
+        Args:
+            path: The path to retrieve all the secrets for
+            mount_point: Mountpoint for path
+
+        """
+        secrets = []
+
+        def recurse(vault, path):
+            """Recurses through a path."""
+            try:
+                subdirs = vault.secrets.kv.v2.list_secrets(path=path,
+                                                           mount_point=mount_point).get('data', {}).get('keys')
+                for subdir in subdirs:
+                    recurse(vault, PurePosixPath(path, subdir))
+                LOGGER.info('Reached directory %s', path)
+            except InvalidPath:
+                LOGGER.info('Extracting secret %s', path)
+                secret = vault.secrets.kv.v2.read_secret_version(path=path,
+                                                                 mount_point=mount_point)
                 secret['original_path'] = path
                 secrets.append(secret)
 
@@ -129,6 +178,32 @@ class Vault(Client):
             data = secret.get('data')
             self._logger.info('Adding secrets to path {}'.format(path))
             self.write(path, **data)
+        return True
+
+    def _restore_secrets_v2(self, secrets, mount_point):
+        """Restores secrets to vault in their original path using v2 engine.
+
+        Args:
+            secrets: List of secret dictionaries with "original_path" attribute set
+            mount_point: Mountpoint for path
+
+        Returns:
+            True on success, False otherwise
+
+        """
+        if not isinstance(secrets, (list, tuple)):
+            self._logger.error('Please provide a list or tuple of secrets to restore.')
+            return False
+        for secret in secrets:
+            path = secret.get('original_path')
+            if not path:
+                self._logger.error('No "original_path" found, cannot restore.')
+                continue
+            data = secret.get('data', {}).get('data')
+            self._logger.info('Adding secrets to path {}'.format(path))
+            self.secrets.kv.v2.create_or_update_secret(mount_point=mount_point,
+                                                       path=path,
+                                                       secret=data)
         return True
 
     @property

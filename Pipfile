@@ -23,6 +23,6 @@ name = "pypi"
 
 [packages]
 
-hvac = "~=0.10.3"
-dateutils = "~=0.6.8"
+hvac = "~=0.10.5"
+dateutils = "~=0.6.11"
 pyhcl = "~=0.4.4"
