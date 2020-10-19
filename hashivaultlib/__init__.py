@@ -33,6 +33,7 @@ Import all parts from hashivaultlib here
 """
 from ._version import __version__
 from .hashivaultlib import Vault
+from .hashivaultlibexceptions import InvalidPath
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -48,3 +49,4 @@ assert __version__
 
 # assert objects
 assert Vault
+assert InvalidPath

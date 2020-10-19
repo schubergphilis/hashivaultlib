@@ -251,7 +251,7 @@ class TokenFactory:  # pylint: disable=too-few-public-methods
             else:
                 token = Token(vault_instance, data)
         except (AttributeError, TypeError):
-            vault_instance._logger.error('Response for token seems broken, got :%s', data)
+            vault_instance._logger.error('Response for token seems broken, got :%s', data)  # pylint: disable=protected-access
         return token
 
 
