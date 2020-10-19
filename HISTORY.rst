@@ -92,3 +92,9 @@ History
 ------------------
 
 * Refactored loggers to not use the root one.
+
+
+1.3.0 (19-10-2020)
+------------------
+
+* Wrapped Invalid path exception.
