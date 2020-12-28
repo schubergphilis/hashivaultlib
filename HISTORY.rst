@@ -98,3 +98,9 @@ History
 ------------------
 
 * Wrapped Invalid path exception.
+
+
+1.3.1 (28-12-2020)
+------------------
+
+* Updated underlying hvac dependency.
