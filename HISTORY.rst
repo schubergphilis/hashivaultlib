@@ -104,3 +104,9 @@ History
 ------------------
 
 * Updated underlying hvac dependency.
+
+
+1.3.2 (26-04-2021)
+------------------
+
+* Bumped dependencies.
