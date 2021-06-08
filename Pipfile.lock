@@ -261,11 +261,11 @@
         },
         "gitwrapperlib": {
             "hashes": [
-                "sha256:bdc5d97bcdc50b6e9ae5b14d4e3dcd99bb65e84a28f7ad86b2d9ad3e597236d3",
-                "sha256:f083cb1eeb59166b679639324c98ad260d82cf94200467d986e38b68ed7b5527"
+                "sha256:1b6be722c03a0702d8d2e6be1fd8295ce9c2367b694f8766b5c3ec9c79194ace",
+                "sha256:f30e6eb10749dc53566a96c553572b906c759b3980cf92946ed46e951599e99b"
             ],
             "index": "pypi",
-            "version": "==0.9.3"
+            "version": "==0.9.1"
         },
         "humanfriendly": {
             "hashes": [
