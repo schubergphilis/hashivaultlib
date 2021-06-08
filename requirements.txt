@@ -7,6 +7,6 @@
 #
 # Please use Pipfile to update the requirements.
 #
-hvac~=0.10.9
+hvac~=0.10.14
 dateutils~=0.6.12
 pyhcl~=0.4.4
