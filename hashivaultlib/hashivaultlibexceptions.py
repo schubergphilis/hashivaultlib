@@ -42,3 +42,5 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 from hvac.exceptions import InvalidPath  # noqa:F401
+
+assert InvalidPath

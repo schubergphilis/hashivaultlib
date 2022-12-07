@@ -62,9 +62,8 @@ class Vault(Client):
     """Extends the hvac client for vault with some extra handy usability."""
 
     def __init__(self, *args, max_workers=10, **kwargs):
-        super(Vault, self).__init__(*args, **kwargs)
-        logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
-                                                suffix=self.__class__.__name__)
+        super().__init__(*args, **kwargs)
+        logger_name = f'{LOGGER_BASENAME}.{self.__class__.__name__}'
         self._logger = logging.getLogger(logger_name)
         self.secrets.kv.v1.delete_path = self.delete_path
         self.secrets.kv.v1.retrieve_secrets_from_path = self.retrieve_secrets_from_path
@@ -242,7 +241,7 @@ class Vault(Client):
                     self._logger.exception('Future failed...')
 
 
-class TokenFactory:  # pylint: disable=too-few-public-methods
+class TokenFactory:
     """Factory to create the appropriate Token type."""
 
     def __new__(cls, vault_instance, data):
@@ -256,7 +255,7 @@ class TokenFactory:  # pylint: disable=too-few-public-methods
         return token
 
 
-class Token:  # pylint: disable=too-many-public-methods
+class Token:
     """Models a vault token and provides delete capabilities."""
 
     def __init__(self, vault_instance, data):

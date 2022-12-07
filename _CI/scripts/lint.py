@@ -41,10 +41,10 @@ LOGGER.addHandler(logging.NullHandler())
 
 def lint():
     bootstrap()
-    success = execute_command('prospector -DFM')
+    success = execute_command('prospector -ADFM')
     if success:
         LOGGER.info('%s No linting errors found! %s',
-                    emojize(':white_heavy_check_mark:'),
+                    emojize(":white_check_mark:", language="alias"),
                     emojize(':thumbs_up:'))
     else:
         LOGGER.error('%s Linting errors found! %s',
