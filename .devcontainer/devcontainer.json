@@ -1,0 +1,44 @@
+{
+    "name": "hasivaultlib",
+    "image": "enexis-docker.jfrog.io/stacklifecyclemanager-ci:latest",
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "terminal.integrated.profiles.linux": {
+            "cnap-bash": {
+                "path": "/bin/bash",
+                "color": "terminal.ansiRed"
+            }
+        },
+        "terminal.integrated.defaultProfile.linux": "cnap-bash",
+        "python.terminal.activateEnvironment": false,
+        "python.pythonPath": "/usr/local/bin/python",
+        "python.languageServer": "Pylance",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintPath": "${containerWorkspaceFolder}/.venv/bin/pylint",
+        "[python]": {
+            "editor.formatOnSave": true
+        }
+    },
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "eamodio.gitlens"
+    ],
+    // Run commands after the container is created
+    "postCreateCommand": "echo 'source ${containerWorkspaceFolder}/setup_aliases.sh \nexport PS1=\"$PWD> \"' > ~/.bashrc",
+    "runArgs": [
+        "--init"
+    ],
+    "mounts": [
+        "source=${localEnv:HOME}/.vault-token,target=/root/.vault-token,type=bind,consistency=cached",
+        "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+    ],
+    "remoteEnv": {
+        "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+    },
+    "containerEnv": {
+        "PIP_EXTRA_INDEX_URL": "${localEnv:PIP_EXTRA_INDEX_URL}"
+    }
+}
