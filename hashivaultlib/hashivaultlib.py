@@ -61,7 +61,7 @@ LOGGER.addHandler(logging.NullHandler())
 class Vault(Client):
     """Extends the hvac client for vault with some extra handy usability."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, max_workers=10, **kwargs):
         super(Vault, self).__init__(*args, **kwargs)
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
@@ -72,6 +72,7 @@ class Vault(Client):
         self.secrets.kv.v2.delete_path = self._delete_path_v2
         self.secrets.kv.v2.retrieve_secrets_from_path = self._retrieve_secrets_from_path_v2
         self.secrets.kv.v2.restore_secrets = self._restore_secrets_v2
+        self.max_workers = max_workers
 
     def delete_path(self, path):
         """Deletes recursively a path from vault.
@@ -225,7 +226,7 @@ class Vault(Client):
         """
         headers = {'X-Vault-Token': self.token}
         url = '{host}/v1/auth/token/lookup-accessor?vaultaddr={host}'.format(host=self.url)
-        with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = [executor.submit(self.session.post,
                                        url,
                                        headers=headers,
