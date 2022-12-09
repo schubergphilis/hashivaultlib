@@ -122,3 +122,10 @@ History
 ------------------
 
 * Bumped dependencies.
+
+
+1.4.0 (09-12-2022)
+------------------
+* Set max_workers as param with default set to None
+* Set runner to ubuntu-20.04
+* Update pip lock
