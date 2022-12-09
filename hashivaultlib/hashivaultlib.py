@@ -61,7 +61,7 @@ LOGGER.addHandler(logging.NullHandler())
 class Vault(Client):
     """Extends the hvac client for vault with some extra handy usability."""
 
-    def __init__(self, *args, max_workers=10, **kwargs):
+    def __init__(self, *args, max_workers=None, **kwargs):
         super().__init__(*args, **kwargs)
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
