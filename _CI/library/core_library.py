@@ -494,19 +494,21 @@ def bump(segment=None, version_file=None):
     try:
         with open(version_file) as version:
             version_text = version.read().strip()
-        _ = semver.parse(version_text)
+        _ = semver.Version.parse(version_text)
     except FileNotFoundError:
-        LOGGER.error('Could not find .VERSION file')
+        LOGGER.error("Could not find .VERSION file")
         raise SystemExit(1)
     except ValueError:
         LOGGER.error('Invalid version found in .VERSION file "%s"', version_text)
         raise SystemExit(1)
     if segment:
-        if segment not in ('major', 'minor', 'patch'):
-            LOGGER.error('Invalid segment "%s" was provided for semantic versioning, exiting...')
+        if segment not in ("major", "minor", "patch"):
+            LOGGER.error(
+                'Invalid segment "%s" was provided for semantic versioning, exiting...'
+            )
             raise SystemExit(1)
-        new_version = getattr(semver, f'bump_{segment}')(version_text)
-        with open(version_file, 'w') as vfile:
+        new_version = getattr(_, f"next_{segment}").text
+        with open(version_file, "w") as vfile:
             vfile.write(new_version)
             return new_version
     else:
