@@ -122,3 +122,9 @@ History
 ------------------
 
 * Bumped dependencies.
+
+
+1.3.5 (23-07-2024)
+------------------
+
+* Bump dependencies.
