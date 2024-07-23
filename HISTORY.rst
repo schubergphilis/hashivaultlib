@@ -134,3 +134,9 @@ History
 ------------------
 
 * Bump upload dependency.
+
+
+1.4.1 (23-07-2024)
+------------------
+
+* Bump dependencies.
